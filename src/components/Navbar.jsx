@@ -22,7 +22,34 @@ const Navbar = () => {
       timer: 1500,
     });
   };
-
+  const navlinks = (
+    <>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "border-2 px-2 lg:px-4  py-2 rounded-lg bg-amber-500 font-bold text-black"
+              : ""
+          }
+          to="/"
+        >
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "border-2 px-2 lg:px-4 py-2 rounded-lg bg-amber-500 font-bold text-black"
+              : ""
+          }
+          to="/allproducts"
+        >
+          All Products
+        </NavLink>
+      </li>
+      </>
+  );
     return (
         <div>
             <div className="navbar bg-base-100">
@@ -43,21 +70,18 @@ const Navbar = () => {
         </svg>
       </div>
       <ul
-        tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        <li><a>Item 1</a></li>
-        <li><a>Item 3</a></li>
-      </ul>
+            tabIndex={0}
+            className=" dropdown-content mt-3 z-[1] pl-4 pb-4 shadow bg-base-100 rounded-box w-52 space-y-3 "
+          >
+            {navlinks}
+          </ul>
     </div>
     <a className="">
         <img src={logo} alt="logo" className="w-40 h-16"/>        
         </a>
   </div>
   <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal px-1">
-      <li><NavLink to="/">Home</NavLink></li>     
-      <li><a>Item 3</a></li>
-    </ul>
+  <ul className="flex gap-4  px-1">{navlinks}</ul>
   </div>
   <div className="navbar-end">
   {user ? (

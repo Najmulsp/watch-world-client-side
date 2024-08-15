@@ -97,7 +97,7 @@ const Login = () => {
                       {" "}
                       Register
                     </Link>
-                    .
+                    
                   </p>
                 </div>
               </form>

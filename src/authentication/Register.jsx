@@ -2,10 +2,11 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 import Swal from "sweetalert2";
+import { FcGoogle } from "react-icons/fc";
 
 
 const Register = () => {
-	const { createUser } = useContext(AuthContext);
+	const { createUser, googleLogin } = useContext(AuthContext);
 
 	const handleRegister = e =>{
 		e.preventDefault();
@@ -24,7 +25,17 @@ const Register = () => {
 		  });
 	}
 
-
+	const handleGoogleLogin = async () => {
+		const result = await googleLogin();
+		console.log(result.user);
+		Swal.fire({
+		  position: "top-end",
+		  icon: "success",
+		  title: "You have successfully logged in",
+		  showConfirmButton: false,
+		  timer: 1500,
+		});
+	  };
     return (
         <div>
             <section
@@ -38,8 +49,21 @@ const Register = () => {
         <div className="flex bg-blue-950 bg-opacity-70 flex-col max-w-md p-6 rounded-md sm:p-10 border border-amber-500 text-white">
 	<div className="mb-8 text-center">
 		<h1 className="my-3 text-4xl font-bold">Register</h1>
-		<p className="text-sm ">Sign up to access your account</p>
+		
 	</div>
+	<div className="mb-3">
+                <button
+                  onClick={handleGoogleLogin}
+                  aria-label="Login with Google"
+                  type="button"
+                  className="flex bg-amber-500 bg-opacity-70 items-center justify-center w-4/5 mx-auto space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 border-amber-600 focus:ring-blue-600"
+                >
+                  <FcGoogle className="text-4xl" />
+                  <p className="">Sign up with Google</p>
+                </button>
+              </div>
+			  <p className="text-center">OR</p>
+			  <p className="text-sm text-center mb-2">Get register to access your account</p>
 	<form onSubmit={handleRegister}  className="space-y-12">
 		<div className="space-y-4">
 			<div>
