@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#dropdown{
+    display:none;
+    position: absolute;
+    }
+    
+    #profileImg{
+    position: relative;
+    }
+    
+    #profileImg:hover #dropdown{
+      display: block;
+      position: absolute;
+      
+    }
