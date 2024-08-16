@@ -28,7 +28,7 @@ const Navbar = () => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "border-2 px-2 lg:px-4  py-2 rounded-lg bg-amber-500 font-bold text-black"
+              ? "border-2 px-2 lg:px-4  py-2  bg-[#DAA82E] font-bold text-black"
               : ""
           }
           to="/"
@@ -40,7 +40,7 @@ const Navbar = () => {
         <NavLink
           className={({ isActive }) =>
             isActive
-              ? "border-2 px-2 lg:px-4 py-2 rounded-lg bg-amber-500 font-bold text-black"
+              ? "border-2 px-2 lg:px-4 py-2  bg-[#DAA82E] font-bold text-black"
               : ""
           }
           to="/allproducts"
@@ -105,7 +105,7 @@ const Navbar = () => {
             </div>
           </div>
         ) : (
-          <Link to="/login"><button className="btn text-white bg-[#DAA82E]">Login</button>
+          <Link to="/login"><button className="btn hover:bg-blue-950 rounded-none text-white bg-[#DAA82E]">Login</button>
   </Link>
         )}
     </div>

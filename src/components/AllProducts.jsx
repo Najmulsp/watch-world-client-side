@@ -2,47 +2,95 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const AllProducts = () => {
-  const [allProducts, setAllProducts] = useState(null);
+  const [allProducts, setAllProducts] = useState([]);
   const [filter, setFilter] = useState({ brand: '', category: '', priceRange: '' });
   const [sortOption, setSortOption] = useState('');
   const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-
+  const itemsPerPage = 8;
 
   useEffect(() => {
-	// Build query string from filter object
     const query = Object.entries(filter)
       .filter(([key, value]) => value)
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
 
-	axios.get(`http://localhost:5000/allProducts?${query}&sort=${sortOption}&search=${search}`)
-		.then(data =>{
-			setAllProducts(data.data)
-		})
-		.catch(error => console.error('Error fetching products:', error));
-  }, [filter]);
+    axios.get(`http://localhost:5000/allProducts?${query}&sort=${sortOption}&search=${search}&page=${currentPage}&limit=${itemsPerPage}`)
+      .then(response => {
+        const { products, total } = response.data;
+        setAllProducts(products);
+        setTotalPages(Math.ceil(total / itemsPerPage));
+      })
+      .catch(error => console.error('Error fetching products:', error));
+  }, [filter, sortOption, search, currentPage]);
 
   const handleFilterChange = (e) => {
     setFilter({ ...filter, [e.target.name]: e.target.value });
+    setCurrentPage(1); // Reset to the first page when filters change
   };
+
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
+    setCurrentPage(1); // Reset to the first page when sort option changes
   };
+
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
+
+  const handleSearchButton = () => {
+    setCurrentPage(1); // Reset to the first page when search is performed
+  };
+
+  const formatDate = (dateString) => {
+    return dateString.split('T')[0];
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <button
+          key={i}
+          onClick={() => handlePageClick(i)}
+          className={`px-3 py-1 rounded-md ${currentPage === i ? 'bg-blue-600 text-white' : 'bg-gray-300 text-black'}`}
+        >
+          {i}
+        </button>
+      );
+    }
+    return pageNumbers;
+  };
+
   return (
     <div>
-      <section className="py-6 sm:py-12 dark:bg-gray-100 dark:text-gray-800">
+      <section className="py-6 sm:py-12 bg-gradient-to-r from-sky-100 to-amber-100 dark:text-gray-800">
         <div className="container p-6 mx-auto space-y-8">
           <div className="space-y-2 text-center">
             <h2 className="text-3xl font-bold">All Products</h2>
             <p className="font-serif text-sm dark:text-gray-600">
-              Qualisque erroribus usu at, duo te agam soluta mucius.
+              Premier store for wrist watches
             </p>
           </div>
-          						{/* search  sort*/}
+          {/* search and sort */}
           <div className="flex justify-around w-full gap-6  sm:px-8 lg:px-12 xl:px-32 ">
             {/* search */}
             <fieldset className="w-full space-y-1 dark:text-gray-800">
@@ -54,6 +102,7 @@ const AllProducts = () => {
                   <button
                     type="button"
                     title="search"
+                    onClick={handleSearchButton}
                     className="p-1 focus:outline-none focus:ring"
                   >
                     <svg
@@ -69,71 +118,70 @@ const AllProducts = () => {
                   type="search"
                   name="Search"
                   placeholder="Search..."
-				  value={search}
-        		  onChange={handleSearch}
+                  value={search}
+                  onChange={handleSearch}
                   className="w-32 border-2 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none dark:bg-gray-100 dark:text-gray-800 focus:dark:bg-gray-50 focus:dark:border-amber-400"
                 />
               </div>
             </fieldset>
-			{/* sort */}
-			<div>
-        <label className="flex">
-          <p className="w-20">Sort by:</p>
-          <select
-		  className="bg-slate-200 border focus:outline-none focus:dark:bg-gray-50 focus:dark:border-amber-400"
-		  value={sortOption} onChange={handleSortChange}>
-            <option value="">Select</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="date-desc">Date Added: Newest first</option>
-          </select>
-        </label>
-      </div>
-			{/* filter */}
-			<div>
-        <label className="flex gap-2">
-          Brand:
-          <input
-            type="text"
-            name="brand"
-            value={filter.brand}
-            onChange={handleFilterChange}
-			className="bg-slate-200 border focus:outline-none focus:dark:bg-gray-50 focus:dark:border-amber-400"
-          />
-        </label><br />
-        <label className="flex gap-2">
-          Category:
-          <input
-            type="text"
-            name="category"
-            value={filter.category}
-            onChange={handleFilterChange}
-			className="bg-slate-200 border focus:outline-none focus:dark:bg-gray-50 focus:dark:border-amber-400"
-          />
-        </label><br />
-        <label className="flex gap-2">
-          Price Range:
-          <select
-		    type="number"
-            name="priceRange"
-            value={filter.priceRange}
-            onChange={handleFilterChange}
-			className="bg-slate-200 border focus:outline-none focus:dark:bg-gray-50 focus:dark:border-amber-400"
-          >
-            <option value="">All</option>
-            <option value="0-100">0-100</option>
-            <option value="101-500">101-500</option>
-            <option value="501-1000">501-1000</option>
-            <option value="1001-5000">1001-5000</option>
-          </select>
-        </label>
-      </div>
+            {/* sort */}
+            <div>
+              <label className="flex">
+                <p className="w-20">Sort by:</p>
+                <select
+                  className="bg-slate-200 border focus:outline-none focus:dark:bg-gray-50 focus:dark:border-amber-400"
+                  value={sortOption} onChange={handleSortChange}>
+                  <option value="">Select</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                  <option value="date-desc">Date Added: Newest first</option>
+                </select>
+              </label>
+            </div>
+            {/* filter */}
+            <div>
+              <label className="flex gap-2">
+                Brand:
+                <input
+                  type="text"
+                  name="brand"
+                  value={filter.brand}
+                  onChange={handleFilterChange}
+                  className="bg-slate-200 border focus:outline-none focus:dark:bg-gray-50 focus:dark:border-amber-400"
+                />
+              </label><br />
+              <label className="flex gap-2">
+                Category:
+                <input
+                  type="text"
+                  name="category"
+                  value={filter.category}
+                  onChange={handleFilterChange}
+                  className="bg-slate-200 border focus:outline-none focus:dark:bg-gray-50 focus:dark:border-amber-400"
+                />
+              </label><br />
+              <label className="flex gap-2">
+                Price Range:
+                <select
+                  name="priceRange"
+                  value={filter.priceRange}
+                  onChange={handleFilterChange}
+                  className="bg-slate-200 border focus:outline-none focus:dark:bg-gray-50 focus:dark:border-amber-400"
+                >
+                  <option value="">All</option>
+                  <option value="0-100">0-100</option>
+                  <option value="101-500">101-500</option>
+                  <option value="501-1000">501-1000</option>
+                  <option value="1001-5000">1001-5000</option>
+                </select>
+              </label>
+            </div>
           </div>
           <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
             {allProducts?.map((product) => (
               <article
                 key={product._id}
-                className="flex flex-col dark:bg-gray-50"
+                className="flex flex-col bg-amber-300 hover:bg-blue-950 bg-opacity-10 hover:text-white"
               >
                 <a
                   rel="noopener noreferrer"
@@ -142,30 +190,22 @@ const AllProducts = () => {
                 >
                   <img
                     alt=""
-                    className="object-cover w-full h-52 dark:bg-gray-500"
+                    className="object-cover w-full h-52 "
                     src={product?.image}
                   />
                 </a>
-                <div className="flex flex-col flex-1 p-6">
-                  <a
-                    rel="noopener noreferrer"
-                    href="#"
-                    aria-label="Te nulla oportere reprimique his dolorum"
-                  ></a>
-                  <a
-                    rel="noopener noreferrer"
-                    href="#"
-                    className="text-xs tracking-wider uppercase hover:underline dark:text-violet-600"
-                  >
-                    Convenire
-                  </a>
-                  <h3 className="flex-1 py-2 text-lg font-semibold leading-snug">
+                <div className="flex flex-col flex-1 p-4">
+                 
+                  
+                  <h1 className="flex-1 text-lg font-semibold leading-snug">
                     {product?.name}
-                  </h3>
-                  <div className="flex flex-wrap justify-between pt-3 space-x-2 text-xs dark:text-gray-600">
-                    <span>June 1, 2020</span>
-                    <span>2.1K views</span>
+                  </h1>
+                  <h3 className="pt-2">{product?.description.slice(0,50)}...</h3>
+                  <div className="flex flex-wrap justify-between pt-3 space-x-2 text-xs ">
+                    <span> {formatDate(product?.date)}</span>
+                    <span>$ {product?.price}</span>
                   </div>
+                  <button className="btn hover:bg-blue-950 mt-2 w-32 rounded-none text-white dark:hover:bg-[#DAA82E] bg-[#DAA82E]">Veiw Details</button>
                 </div>
               </article>
             ))}

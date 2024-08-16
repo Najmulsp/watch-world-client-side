@@ -39,7 +39,7 @@ const Banner = () => {
                 </div>
                 <h1 className='absolute top-20 left-20 text-5xl font-bold text-white'>The Watch Everyone Desires!</h1>
                 <p className='absolute w-3/5 top-36 left-20 text-2xl font-semibold text-white'>The best in class elegant watches from luxury brand watch world high quality watches into which a lot of care has gone in </p>
-                <button className='btn bg-[#DAA82E] text-white hover:bg-blue-950 absolute  top-56 left-20'>Buy Now</button>
+                <button className='btn rounded-none  bg-[#DAA82E] text-white hover:bg-blue-950 absolute  top-56 left-20'>Buy Now</button>
             </div>
         </SwiperSlide>
         <SwiperSlide >
@@ -49,7 +49,7 @@ const Banner = () => {
                 </div>
                 <h1 className='absolute top-20 left-20 text-5xl font-bold text-white'>The Watch Everyone Desires!</h1>
                 <p className='absolute w-3/5 top-36 left-20 text-2xl font-semibold text-white'>The best in class elegant watches from luxury brand watch world high quality watches into which a lot of care has gone in </p>
-                <button className='btn bg-[#DAA82E] text-white hover:bg-blue-950 absolute  top-56 left-20'>Buy Now</button>
+                <button className='btn rounded-none bg-[#DAA82E] text-white hover:bg-blue-950 absolute  top-56 left-20'>Buy Now</button>
             </div>
         </SwiperSlide>
         <SwiperSlide >
@@ -59,7 +59,7 @@ const Banner = () => {
                 </div>
                 <h1 className='absolute top-20 left-20 text-5xl font-bold text-white'>The Watch Everyone Desires!</h1>
                 <p className='absolute w-3/5 top-36 left-20 text-2xl font-semibold text-white'>The best in class elegant watches from luxury brand watch world high quality watches into which a lot of care has gone in </p>
-                <button className='btn bg-[#DAA82E] text-white hover:bg-blue-950 absolute  top-56 left-20'>Buy Now</button>
+                <button className='btn rounded-none bg-[#DAA82E] text-white hover:bg-blue-950 absolute  top-56 left-20'>Buy Now</button>
             </div>
         </SwiperSlide>
         <SwiperSlide >
@@ -69,7 +69,7 @@ const Banner = () => {
                 </div>
                 <h1 className='absolute top-20 left-20 text-5xl font-bold text-white'>The Watch Everyone Desires!</h1>
                 <p className='absolute w-3/5 top-36 left-20 text-2xl font-semibold text-white'>The best in class elegant watches from luxury brand watch world high quality watches into which a lot of care has gone in </p>
-                <button className='btn bg-[#DAA82E] text-white hover:bg-blue-950 absolute  top-56 left-20'>Buy Now</button>
+                <button className='btn rounded-none bg-[#DAA82E] text-white hover:bg-blue-950 absolute  top-56 left-20'>Buy Now</button>
             </div>
         </SwiperSlide>
         
