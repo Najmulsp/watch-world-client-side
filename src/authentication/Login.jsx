@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
@@ -25,6 +25,7 @@ const Login = () => {
       showConfirmButton: false,
       timer: 1500,
     });
+    Navigate("/")
   };
 
   return (
