@@ -90,8 +90,8 @@ const AllProducts = () => {
               Premier store for wrist watches
             </p>
           </div>
-          {/* search and sort */}
-          <div className="flex justify-around w-full gap-6  sm:px-8 lg:px-12 xl:px-32 ">
+          {/* search, filter and sort */}
+          <div className="flex flex-col lg:flex-row justify-around w-full gap-6  sm:px-8 lg:px-12 xl:px-32 ">
             {/* search */}
             <fieldset className="w-full space-y-1 dark:text-gray-800">
               <label htmlFor="Search" className="hidden">
@@ -181,7 +181,7 @@ const AllProducts = () => {
             {allProducts?.map((product) => (
               <article
                 key={product._id}
-                className="flex flex-col bg-amber-300 hover:bg-blue-950 bg-opacity-10 hover:text-white"
+                className="flex flex-col border-2 max-w-72 mx-auto bg-amber-300 hover:bg-blue-950 bg-opacity-10 hover:text-white"
               >
                 <a
                   rel="noopener noreferrer"
@@ -197,10 +197,11 @@ const AllProducts = () => {
                 <div className="flex flex-col flex-1 p-4">
                  
                   
-                  <h1 className="flex-1 text-lg font-semibold leading-snug">
-                    {product?.name}
+                  <h1 className="flex-1 text-lg font-semibold leading-snug">Name: {product?.name}
                   </h1>
-                  <h3 className="pt-2">{product?.description.slice(0,50)}...</h3>
+                  <h2><span className="font-bold">Brand: </span>{product?.brand}</h2>
+                  <h3><span className="font-bold">Category: </span>{product?.category}</h3>
+                  <p className="pt-2"><span className="font-bold">Description: </span>{product?.description.slice(0,50)}...</p>
                   <div className="flex flex-wrap justify-between pt-3 space-x-2 text-xs ">
                     <span> {formatDate(product?.date)}</span>
                     <span>$ {product?.price}</span>
