@@ -22,10 +22,10 @@ const Banner = () => {
         spaceBetween={30}
         effect={'fade'}
         navigation={true}
-        // autoplay={{
-        //     delay: 2500,
-        //     disableOnInteraction: false,
-        //   }}
+        autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
         pagination={{
           clickable: true,
         }}
@@ -33,7 +33,7 @@ const Banner = () => {
         className="mySwiper h-[400px]  lg:h-[500px]"
       >
         <SwiperSlide >
-            <div className='object-cover border-2 min-h-[500px] w-full'>
+            <div className='object-cover min-h-[500px] w-full'>
                 <img  src={banner1} className='relative h-full object-fill'/>
                 <div className="absolute inset-0 bg-gray-950 opacity-70">
                 </div>

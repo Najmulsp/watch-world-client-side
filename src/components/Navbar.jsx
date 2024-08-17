@@ -96,10 +96,10 @@ const Navbar = () => {
             />
 
             <div id="dropdown" className=" w-28 lg:w-40 rounded-lg z-30">
-              <h1 className="p-2 bg-amber-400 dark:bg-gradient-to-r from-orange-500 via-amber-600 to-amber-700 rounded-lg text-center font-semibold  w-full">
+              <h1 className="p-2 bg-[#DAA82E] text-white rounded-lg text-center font-semibold  w-full">
                 {user.displayName || "user name not found"}
               </h1>
-              <button onClick={handleLogout} className="btn w-full bg-amber-600 bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 hover:bg-gradient-to-br focus:ring-purple-300">
+              <button onClick={handleLogout} className="btn w-full bg-[#DAA82E] text-white hover:bg-blue-900  focus:ring-purple-300">
                 Log Out
               </button>
             </div>

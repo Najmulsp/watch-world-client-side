@@ -55,7 +55,7 @@ const AllProducts = () => {
 
   return (
     <div>
-      <section className="py-6 sm:py-12 dark:bg-gray-100 dark:text-gray-800">
+      <section className="py-6 sm:py-12 bg-gradient-to-r from-sky-100 to-amber-100 dark:text-gray-800">
         <div className="container p-6 mx-auto space-y-8">
           <div className="space-y-2 text-center">
             <h2 className="text-3xl font-bold">All Products</h2>
@@ -83,7 +83,7 @@ const AllProducts = () => {
                   placeholder="Search..."
                   value={search}
                   onChange={handleSearch}
-                  className="w-32 border-2 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none dark:bg-gray-100 dark:text-gray-800 focus:dark:bg-gray-50 focus:dark:border-amber-400"
+                  className="w-32 bg-white border-2 p-2 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none  focus:dark:border-amber-400"
                 />
               </div>
             </fieldset>
@@ -150,7 +150,7 @@ const AllProducts = () => {
             {allProducts.map((product) => (
               <article
                 key={product._id}
-                className="flex flex-col bg-amber-300 hover:bg-blue-950 bg-opacity-10 hover:text-white"
+                className="flex flex-col border-2 bg-amber-300 hover:bg-blue-950 bg-opacity-10 hover:text-white"
               >
                 <a rel="noopener noreferrer" href="#" aria-label="Te nulla oportere reprimique his dolorum">
                   <img
@@ -179,7 +179,7 @@ const AllProducts = () => {
           <div className="flex justify-center items-center mt-4">
             <button
               onClick={handlePreviousPage}
-              className={`px-4 py-2 mr-2 text-white rounded ${currentPage === 1 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700'}`}
+              className={`px-4 py-2 mr-2 text-white rounded ${currentPage === 1 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#DAA82E]'}`}
               disabled={currentPage === 1}
             >
               Previous
@@ -189,7 +189,7 @@ const AllProducts = () => {
             </span>
             <button
               onClick={handleNextPage}
-              className={`px-4 py-2 ml-2 text-white rounded ${currentPage === totalPages ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700'}`}
+              className={`px-4 py-2 ml-2 text-white rounded ${currentPage === totalPages ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#DAA82E]'}`}
               disabled={currentPage === totalPages}
             >
               Next
