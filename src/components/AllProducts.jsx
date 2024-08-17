@@ -17,7 +17,7 @@ const AllProducts = () => {
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
 
-    axios.get(`http://localhost:5000/allProducts?${query}&sort=${sortOption}&search=${search}&page=${currentPage}&limit=${productsPerPage}`)
+    axios.get(`https://watch-world-server-side-jps8krhlh-md-najmuls-projects.vercel.app/allProducts?${query}&sort=${sortOption}&search=${search}&page=${currentPage}&limit=${productsPerPage}`)
       .then(response => {
         setAllProducts(response.data.products);
         setTotalPages(Math.ceil(response.data.total / productsPerPage));
