@@ -8,26 +8,33 @@ const AllProducts = () => {
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const productsPerPage = 8;
 
   useEffect(() => {
-    // Build query string from filter object
-    const query = Object.entries(filter)
-      .filter(([key, value]) => value)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const query = Object.entries(filter)
+          .filter(([key, value]) => value)
+          .map(([key, value]) => `${key}=${value}`)
+          .join('&');
 
-    axios.get(`https://watch-world-server-side-jps8krhlh-md-najmuls-projects.vercel.app/allProducts?${query}&sort=${sortOption}&search=${search}&page=${currentPage}&limit=${productsPerPage}`)
-      .then(response => {
+        const response = await axios.get(`https://watch-world-server-side.vercel.app/allProducts?${query}&sort=${sortOption}&search=${search}&page=${currentPage}&limit=${productsPerPage}`);
         setAllProducts(response.data.products);
         setTotalPages(Math.ceil(response.data.total / productsPerPage));
-      })
-      .catch(error => console.error('Error fetching products:', error));
-  }, [filter, sortOption, search, currentPage]);
+      } catch (error) {
+        setError('Error fetching products. Please try again later.');
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleFilterChange = (e) => {
-    setFilter({ ...filter, [e.target.name]: e.target.value });
-  };
+    fetchData();
+  }, [filter, sortOption, search, currentPage]);
 
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
@@ -35,6 +42,14 @@ const AllProducts = () => {
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
+  };
+
+  const handleFilterChange = (event) => {
+    const { name, value } = event.target;
+    setFilter(prevFilter => ({
+      ...prevFilter,
+      [name]: value
+    }));
   };
 
   const formatDate = (dateString) => {
@@ -129,7 +144,6 @@ const AllProducts = () => {
               <label className="flex gap-2">
                 Price Range:
                 <select
-                  type="number"
                   name="priceRange"
                   value={filter.priceRange}
                   onChange={handleFilterChange}
@@ -146,34 +160,40 @@ const AllProducts = () => {
           </div>
 
           {/* Products Grid */}
-          <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
-            {allProducts.map((product) => (
-              <article
-                key={product._id}
-                className="flex flex-col border-2 bg-amber-300 hover:bg-blue-950 bg-opacity-10 hover:text-white"
-              >
-                <a rel="noopener noreferrer" href="#" aria-label="Te nulla oportere reprimique his dolorum">
-                  <img
-                    alt=""
-                    className="object-cover w-full h-52 "
-                    src={product?.image}
-                  />
-                </a>
-                <div className="flex flex-col flex-1 p-4">
-                <h1 className="flex-1 text-lg font-semibold leading-snug">Name: {product?.name}
-                  </h1>
-                  <h2><span className="font-bold">Brand: </span>{product?.brand}</h2>
-                  <h3><span className="font-bold">Category: </span>{product?.category}</h3>
-                  <p className="pt-2"><span className="font-bold">Description: </span>{product?.description.slice(0,50)}...</p>
-                  <div className="flex flex-wrap justify-between pt-3 space-x-2 text-xs ">
-                    <span> {formatDate(product?.date)}</span>
-                    <span>$ {product?.price}</span>
+          {loading ? (
+            <div className="text-center">Loading products...</div>
+          ) : error ? (
+            <div className="text-center text-red-500">{error}</div>
+          ) : (
+            <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
+              {allProducts.map((product) => (
+                <article
+                  key={product._id}
+                  className="flex flex-col border-2 bg-amber-300 hover:bg-blue-950 bg-opacity-10 hover:text-white"
+                >
+                  <a rel="noopener noreferrer" href="#" aria-label="Te nulla oportere reprimique his dolorum">
+                    <img
+                      alt=""
+                      className="object-cover w-full h-52 "
+                      src={product?.image}
+                    />
+                  </a>
+                  <div className="flex flex-col flex-1 p-4">
+                    <h1 className="flex-1 text-lg font-semibold leading-snug">Name: {product?.name}</h1>
+                    <h2><span className="font-bold">Brand: </span>{product?.brand}</h2>
+                    <h3><span className="font-bold">Category: </span>{product?.category}</h3>
+                    <p className="pt-2"><span className="font-bold">Description: </span>{product?.description.slice(0, 50)}...</p>
+                    <div className="flex flex-wrap justify-between pt-3 space-x-2 text-xs ">
+                      <span> {formatDate(product?.date)}</span>
+                      <span>$ {product?.price}</span>
+                    </div>
+                    
+                    <button className="btn hover:bg-blue-950 mt-2 w-32 rounded-none text-white dark:hover:bg-[#DAA82E] bg-[#DAA82E]">View Details</button>
                   </div>
-                  <button className="btn hover:bg-blue-950 mt-2 w-32 rounded-none text-white dark:hover:bg-[#DAA82E] bg-[#DAA82E]">View Details</button>
-                </div>
-              </article>
-            ))}
-          </div>
+                </article>
+              ))}
+            </div>
+          )}
 
           {/* Pagination */}
           <div className="flex justify-center items-center mt-4">
